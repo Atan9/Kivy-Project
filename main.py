@@ -13,10 +13,8 @@ Builder.load_file('calculator.kv')
 calc_before = False
 operator = ["*", "/", "-", "+"]
 
-class MyLayout(Screen):
-    
-    
-
+class Calculator(Screen):
+    # clear screen function
     def clear(self):
         self.ids.calc_input.text = '0'
 
@@ -101,19 +99,15 @@ class MyLayout(Screen):
             if text[i] == "/" and i < len(text):
                 if text[i + 1] == "0":
                     return "Error"
-        
         return text
                      
-                
-
 class EstimateIncome(Screen):
     pass
-
 
 class CalculatorApp(App):
     def build(self):
         sm = ScreenManager()
-        sm.add_widget(MyLayout(name = 'menu'))
+        sm.add_widget(Calculator(name = 'Calculator'))
         sm.add_widget(EstimateIncome(name = 'estimate'))
         return sm
 

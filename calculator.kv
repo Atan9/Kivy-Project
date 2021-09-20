@@ -1,5 +1,5 @@
 #:import utils kivy.utils
-<MyLayout>
+<Calculator>
 	BoxLayout:
 		orientation: "vertical"
 		size: root.width, root.height
@@ -10,11 +10,6 @@
 			halign: "right"
 			font_size: 65
 			size_hint: (1, .15)
-
-        
-        
-
-
 		GridLayout:
 			cols: 4
 			rows: 6
@@ -172,4 +167,4 @@
     BoxLayout: 
         Button:
             text: "helo world"
-            on_press: root.manager.current = 'menu'
+            on_press: root.manager.current = 'Calculator'
