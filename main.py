@@ -10,22 +10,33 @@ Window.size = (500,700)
 
 # Designate Our .kv design file 
 Builder.load_file('calculator.kv')
+calc_before = False
+operator = ["*", "/", "-", "+"]
 
 class MyLayout(Screen):
+    
+    
+
     def clear(self):
         self.ids.calc_input.text = '0'
 
-    # Create a button pressing function
+    # button pressing function
     def button_press(self, button):
+        global calc_before
         # create a variable that contains whatever was in the text box already
         prior = self.ids.calc_input.text
         
         # determine if 0 is sitting there
         if prior == "0":
-                self.ids.calc_input.text = ''
-                self.ids.calc_input.text = f'{button}'
+            self.ids.calc_input.text = ''
+            self.ids.calc_input.text = f'{button}'
+        elif calc_before and prior[-1] not in operator:
+            calc_before = False
+            self.ids.calc_input.text = ''
+            self.ids.calc_input.text = f'{button}'
         else: 
             self.ids.calc_input.text = f'{prior}{button}'
+            calc_before = False
     
     # remove last character in text box
     def remove(self):
@@ -35,7 +46,7 @@ class MyLayout(Screen):
         # Output back to the textbox
         self.ids.calc_input.text = prior
     
-    # Create function to make text box positive or negative
+    # make text box positive or negative
     def pos_neg(self):
         prior = self.ids.calc_input.text
         # Test to see if there's a - sign already
@@ -44,7 +55,7 @@ class MyLayout(Screen):
         else:
             self.ids.calc_input.text = f'-{prior}'
 
-    # Create decimal function
+    # decimal function
     def dot(self):
         prior = self.ids.calc_input.text
         
@@ -59,7 +70,6 @@ class MyLayout(Screen):
     # create addition function
     def math_sign(self, sign):
         curr = self.ids.calc_input.text
-        operator = ["*", "/", "-", "+"]
         last_operator = curr[-1]
         # check to make sure that operator sign wont be next to each other
         if last_operator in operator:
@@ -67,25 +77,24 @@ class MyLayout(Screen):
             temp_list[-1] = sign
             curr = ''.join(temp_list)
         else:
-            curr = curr + sign
+            curr = f'{curr}{sign}'
         
         self.ids.calc_input.text = curr
 
-
     def equals(self):
+        global calc_before
         prior = self.check_text(self.ids.calc_input.text)
 
         if prior == "Error":
             self.ids.calc_input.text = "Error"
         else:
             self.ids.calc_input.text = str(eval(prior))
+            calc_before = True
 
     def check_text(self, text):
-        divide = False
-        operator = ["*", "/", "-", "+"]
         # this check is to ensure that we have pass in valid calculation
         if text[-1] in operator:
-            text = text + text[:-1]
+            text = f'{text}{text[:-1]}'
             return text
         # check for division by 0 and throw an error if found
         for i in range(len(text)):
@@ -99,23 +108,6 @@ class MyLayout(Screen):
 
 class EstimateIncome(Screen):
     pass
-
-
-
-    # # create equals to function
-    # def equals(self):
-    #     prior = self.ids.calc_input.text
-    #     print(prior)
-    #     # Addition
-    #     if "+" in prior:
-    #         num_list = prior.split("+")
-    #         answer = 0.0
-    #         # loop thru our list
-    #         for number in num_list:
-    #             answer = answer + float(number)
-
-    #         # print the answer in the text box
-    #         self.ids.calc_input.text = str(answer)
 
 
 class CalculatorApp(App):
