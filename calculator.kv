@@ -1,4 +1,5 @@
 #:import utils kivy.utils
+#:import Factory kivy.factory.Factory
 <Calculator>
 	BoxLayout:
 		orientation: "vertical"
@@ -21,8 +22,8 @@
                 background_color: utils.get_color_from_hex('#00FFFF')
 
             Button:
-                text: "Diff Mode"
-                on_press: root.manager.current = 'estimate'
+                text: "Calculate Date"
+                on_press: root.manager.current = 'getDate'
                 background_color: utils.get_color_from_hex('#00FFFF')
             
             Button:
@@ -162,9 +163,124 @@
                 background_color: utils.get_color_from_hex('#FF9500')
 
 
+<MyPopup@Popup>
+    on_open: root.SetData()
+    id: pop_up
+    auto_dismiss: False
+    size_hint: 0.6, 0.7
+    pos_hint: {"center_x": .5, "center_y": .5}
+    title: "Summary"
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text:'Your estimated net income yearly:'
+            font_size: 32
+        Label:
+            id: pop_yearly
+            text:'yearly'
+            font_size: 32
+        Label:
+            color:(3/255,236/255,252/255,1)
+            text: '----------------------------------------------------------------------------------------------------------------------------------------------'
+        Label:
+            text:'Your estimated net income Monthly:'
+            font_size: 32
+        Label:
+            id: pop_monthly
+            text:'monthly'
+            font_size: 32
+
+        Label:
+            color:(3/255,236/255,252/255,1)
+            text: '----------------------------------------------------------------------------------------------------------------------------------------------'      
+        
+        Label:
+            text:'Your estimated net income semi monthly:'
+            font_size: 32
+        Label:
+            id: pop_semi
+            text:'semi'
+            font_size: 32
+
+        Label:
+            color:(3/255,236/255,252/255,1)
+            text: '----------------------------------------------------------------------------------------------------------------------------------------------'
+        
+        Button:
+            text: "Close"
+            font_size: 32
+            pos_hint: {"center_x": .5, "center_y": .5}
+            size_hint: 1,1
+            on_release: root.dismiss()
 
 <EstimateIncome> 
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            size_hint: (1,.2)
+            Button:
+                text: "Calculator"
+                on_press: root.manager.current = 'Calculator'
+            Button:
+                text: "Calculate Date"
+                on_press: root.manager.current = 'getDate'
+            Button:
+                text: "helo world3"
+            Button:
+                text: "helo world4"
+
+        GridLayout:
+			cols: 2
+			rows: 5
+
+            Label:
+                text:'Please Enter your income: '
+            
+            TextInput:
+                id: income_input
+                hint_text: '$'
+                input_filter: 'float'       
+                text: ''
+                halign: "left"
+                font_size: 65
+                size_hint: (1, .5)
+            Label:
+                text:'Please Enter which states you live in: '
+            TextInput:
+                id: state_input
+                text: ""
+                halign: "left"
+                multiline: False
+                write_tab: False
+                font_size: 65
+                size_hint: (1, .15)
+            Label:
+                text:'Your estimated net income yearly'
+            Label:
+                id: yearly
+                text:'yearly'
+            Label:
+                text:'Your estimated net income Monthly'
+            Label:
+                id: monthly
+                text:'monthly'
+            Label:
+                text:'Your estimated net income semi monthly'
+            Label:
+                id: semi
+                text:'semi'
+        
+        Button:
+            text:'Popup'
+            size_hint: (1,.2)
+            on_press: root.taxCalculate()
+            on_release: Factory.MyPopup().open()
+
+
+#size_hint: (width, height)
+
+<Get_Date> 
     BoxLayout: 
         Button:
-            text: "helo world"
+            text: "calculate date"
             on_press: root.manager.current = 'Calculator'
