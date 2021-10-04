@@ -4,30 +4,15 @@ from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.textinput import TextInput
-from kivy.properties import NumericProperty
-from kivy.uix.popup import Popup
-import requests
-import json
-
-
-from kivy.uix.progressbar import ProgressBar
-
-
-
 
 # Set the app size
-# Window.size = (500,700)
-Window.size = (1000,1000)
+Window.size = (500,700)
 
 # Designate Our .kv design file 
-# Builder.load_file('calculator.kv')
+Builder.load_file('calculator.kv')
 calc_before = False
 operator = ["*", "/", "-", "+"]
 
-PopUp_yearly = '123'
-PopUp_monthly = ''
-PopUp_semi = ''
 class Calculator(Screen):
     # clear screen function
     def clear(self):
@@ -117,92 +102,6 @@ class Calculator(Screen):
         return text
                      
 class EstimateIncome(Screen):
-    def GetFederalIncomeTaxInfo(self):
-        url = "https://stylinandy-taxee.p.rapidapi.com/v2/federal/2020"
-        headers = {
-            'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElfS0VZX01BTkFHRVIiLCJodHRwOi8vdGF4ZWUuaW8vdXNlcl9pZCI6IjU3Y2IyMWE2YmI4N2MxMDA0NGE2NmE2MiIsImh0dHA6Ly90YXhlZS5pby9zY29wZXMiOlsiYXBpIl0sImlhdCI6MTQ3MzAxODA1OX0.xkn1_LHnLijhYMONl5iXhKD1vsdm0_5AtSKGsPrVtxI",
-            'x-rapidapi-host': "stylinandy-taxee.p.rapidapi.com",
-            'x-rapidapi-key': "76b254e6cfmshbcfd444ec2c051ep15cdffjsnd1a7d44cf8ae"
-            }
-        response = requests.request("GET", url, headers=headers)
-        r = json.loads(response.text)
-        json_readable = json.dumps(r, sort_keys=True, indent=4, separators=(',', ':'))
-        
-    def GetStateIncomeTax(self):
-        url = "https://stylinandy-taxee.p.rapidapi.com/v2/state/2020/CA"
-
-        headers = {
-            'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElfS0VZX01BTkFHRVIiLCJodHRwOi8vdGF4ZWUuaW8vdXNlcl9pZCI6IjYxNWEzNjJkMTQ3NjM1M2NkYjg4MGI1ZCIsImh0dHA6Ly90YXhlZS5pby9zY29wZXMiOlsiYXBpIl0sImlhdCI6MTYzMzMwMjA2MX0.dbskM2DS-9eCFAc_MHGiyfOklBaXVYrJ5JZimQtiPvg",
-            'x-rapidapi-host': "stylinandy-taxee.p.rapidapi.com",
-            'x-rapidapi-key': "76b254e6cfmshbcfd444ec2c051ep15cdffjsnd1a7d44cf8ae"
-            }
-
-        response = requests.request("GET", url, headers=headers)
-        r = json.loads(response.text)
-        json_readable = json.dumps(r, sort_keys=True, indent=4, separators=(',', ':'))
-        print(response.text)
-
-    def taxCalculate(self):
-        '''
-        Needs Year, filing status, payrate, state, exemptions
-
-        '''
-        year = 2020
-        # pay_rate = self.ids.income_input.text
-        # state = self.ids.state_input.text
-
-        pay_rate = 87000
-        state = 'MS'
-        filing_status = 'single'
-
-        url = f'https://stylinandy-taxee.p.rapidapi.com/v2/calculate/{year}'
-
-        # this one is with exemption
-        # payload = "filing_status=single&pay_rate=150000&state=CA&exemptions=1&pay_periods=1"
-
-        payload = f'filing_status=single&pay_rate={pay_rate}&state={state}&pay_periods=1'
-        headers = {
-            'content-type': "application/x-www-form-urlencoded",
-            'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElfS0VZX01BTkFHRVIiLCJodHRwOi8vdGF4ZWUuaW8vdXNlcl9pZCI6IjYxNWEzNjJkMTQ3NjM1M2NkYjg4MGI1ZCIsImh0dHA6Ly90YXhlZS5pby9zY29wZXMiOlsiYXBpIl0sImlhdCI6MTYzMzMwMjA2MX0.dbskM2DS-9eCFAc_MHGiyfOklBaXVYrJ5JZimQtiPvg",
-            'x-rapidapi-host': "stylinandy-taxee.p.rapidapi.com",
-            'x-rapidapi-key': "76b254e6cfmshbcfd444ec2c051ep15cdffjsnd1a7d44cf8ae"
-            }
-
-        response = requests.request("POST", url, data=payload, headers=headers)
-
-        r = json.loads(response.text)
-        json_readable = json.dumps(r, sort_keys=True, indent=4, separators=(',', ':'))
-
-        print(json_readable)
-        federal_tax = r["annual"]["federal"]["amount"]
-        fica_holding = r["annual"]["fica"]["amount"]
-        state_tax = r["annual"]["state"]["amount"]
-        calculate = f'{pay_rate} - {federal_tax} - {state_tax} - {fica_holding}'
-        global PopUp_yearly
-        global PopUp_monthly
-        global PopUp_semi
-
-        self.ids.yearly.text = str(eval(calculate))
-        self.ids.monthly.text = str(eval(f'{self.ids.yearly.text} / 12'))
-        self.ids.semi.text = str(eval(f'{self.ids.monthly.text} / 2'))
-
-        PopUp_yearly = self.ids.yearly.text
-        PopUp_monthly = self.ids.monthly.text
-        PopUp_semi = self.ids.semi.text
-        
-        self.ids.yearly.text = f'$ {self.ids.yearly.text}'
-        self.ids.monthly.text = f'$ {self.ids.monthly.text}'
-        self.ids.semi.text = f'$ {self.ids.semi.text}'
-
-class MyPopup(Popup):
-    def SetData(self):
-        
-        self.ids.pop_yearly.text = f'$ {PopUp_yearly}'
-        self.ids.pop_monthly.text = f'$ {PopUp_monthly}'
-        self.ids.pop_semi.text = f'$ {PopUp_semi}'
-        
-
-class Get_Date(Screen):
     pass
 
 class CalculatorApp(App):
@@ -210,8 +109,6 @@ class CalculatorApp(App):
         sm = ScreenManager()
         sm.add_widget(Calculator(name = 'Calculator'))
         sm.add_widget(EstimateIncome(name = 'estimate'))
-        sm.add_widget(Get_Date(name='getDate'))
-        
         return sm
 
 if __name__ == '__main__':
