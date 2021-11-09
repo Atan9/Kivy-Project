@@ -25,7 +25,8 @@ from kivy.uix.progressbar import ProgressBar
 Window.size = (750,844)
 
 # API Keys
-API_key = 'YOUR API KEY'
+API_key = "your API Key"
+Bearer_tax = "your Bearer Token"
 
 #global Var
 calc_before = False
@@ -169,7 +170,7 @@ class EstimateIncome(Screen):
         payload = f'filing_status={filing}&pay_rate={pay}&state={st}&exemptions={ex}&pay_periods=1'
         headers = {
             'content-type': "application/x-www-form-urlencoded",
-            'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElfS0VZX01BTkFHRVIiLCJodHRwOi8vdGF4ZWUuaW8vdXNlcl9pZCI6IjYxNWEzNjJkMTQ3NjM1M2NkYjg4MGI1ZCIsImh0dHA6Ly90YXhlZS5pby9zY29wZXMiOlsiYXBpIl0sImlhdCI6MTYzMzMwMjA2MX0.dbskM2DS-9eCFAc_MHGiyfOklBaXVYrJ5JZimQtiPvg",
+            'authorization': Bearer_tax,
             'x-rapidapi-host': "stylinandy-taxee.p.rapidapi.com",
             'x-rapidapi-key': API_key
             }
@@ -428,9 +429,6 @@ class Exchange(Screen):
         if arr[-1] == ",":
             arr[-1] = ""
         return ''.join(reversed(arr))
-
-
-    
 class getDate(Screen):
     AddOrSub = ''
     chosen_date = ''
