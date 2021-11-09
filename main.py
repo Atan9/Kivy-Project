@@ -14,19 +14,15 @@ import datetime as dt
 
 from kivy.uix.progressbar import ProgressBar
 
-# TODO: change the button size and the location for the mode control
-# TODO: change the color for calculate butoon to something more attractive if
-# applicable
 # TODO: Change the result display for calc mode from textInputBox to label
-# TODO: Change the size of calculate button for estimate income mode
 
 
 # Set the app size
 Window.size = (750,844)
 
 # API Keys
-API_key = "your API Key"
-Bearer_tax = "your Bearer Token"
+API_key = "Your API Key"
+Bearer_tax = "Your Bearer Key"
 
 #global Var
 calc_before = False
