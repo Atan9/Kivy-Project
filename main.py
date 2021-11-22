@@ -21,7 +21,7 @@ from kivy.uix.progressbar import ProgressBar
 Window.size = (750,844)
 
 # API Keys
-API_key = "Your API KEY"
+API_key = "Your API Key"
 Bearer_tax = "Your Bearer Key"
 
 #global Var
@@ -59,7 +59,6 @@ class Calculator(Screen):
                 index += 1
 
             if sign == "+" or sign == "-":
-                print(prior[:index])
                 pcent = (float(prior[:index]) / 100) * float(prior[index + 1:])
             else:
                 pcent = float(prior[index + 1:]) / 100
