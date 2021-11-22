@@ -515,8 +515,15 @@ class getDate(Screen):
             if self.ids.PickFromdate.text == 'From Date' or self.ids.pickToDate.text == 'To Date':
                 self.ids.SumDate.text = f'Please enter the date'
             else:
+                # if we get the valid values calculate here
                 difference_days = str(self.days_between())
-                self.ids.SumDate.text = f'The difference between to date is  {difference_days}'
+                convertResult = self.convertDays(difference_days)
+                if convertResult[0] > 0:
+                    self.ids.SumDate.text = f'The difference between two date is {convertResult[0]} years, {convertResult[1]} weeks and {convertResult[2]} days'
+                elif convertResult[1] > 0:
+                    self.ids.SumDate.text = f'The difference between two date is  {convertResult[1]} weeks and {convertResult[2]} days'
+                else:
+                    self.ids.SumDate.text = f'The difference between two date is  {convertResult[2]} days'
         else:
             self.ids.SumDate.text = f'Please select something'
             return
@@ -529,9 +536,18 @@ class getDate(Screen):
         dayTo = dt.datetime.strptime(d2, "%m/%d/%y")
         return abs((dayTo - dayFrom).days)
 
-    def convertDays(self):
-        #TODO: convert days given to years, weeks and days.
-        return
+    def convertDays(self, days):
+        days = int(days)
+        weeks = days // 7
+        days = days % 7
+        year = 0
+        if weeks >= 52:
+            year = weeks // 52
+            weeks = weeks % 52
+        
+        return (year, weeks, days)
+        # #TODO: convert days given to years, weeks and days.
+        # return
 
     def addOrSubCalc(self):
         week_days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
