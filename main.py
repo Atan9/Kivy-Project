@@ -21,7 +21,7 @@ from kivy.uix.progressbar import ProgressBar
 Window.size = (750,844)
 
 # API Keys
-API_key = "Your API Key"
+API_key = "Your API KEY"
 Bearer_tax = "Your Bearer Key"
 
 #global Var
@@ -35,6 +35,41 @@ state_tax = '0'
 fica_holding = '0'
 Current_price = {}
 class Calculator(Screen):
+    # percent function calculate result
+    def percent(self):
+        global calc_before
+        prior = self.ids.calc_input.text
+        if prior[-1] in operator:
+            return
+
+        index = 0
+        found_op = False
+        sign = ''
+        for op in operator:
+            if op in prior:
+                sign = op
+                found_op = True
+                break
+        
+        if found_op:
+            pcent = 0
+            for i in prior:
+                if i == sign:
+                    break
+                index += 1
+
+            if sign == "+" or sign == "-":
+                print(prior[:index])
+                pcent = (float(prior[:index]) / 100) * float(prior[index + 1:])
+            else:
+                pcent = float(prior[index + 1:]) / 100
+            equation = prior[:index] + prior[index] + str(pcent)
+            self.ids.calc_input.text = str(eval(equation))
+            calc_before = True
+        else:
+            pcent = int(prior) / 100
+            self.ids.calc_input.text = str(pcent)
+
     # clear screen function
     def clear(self):
         self.ids.calc_input.text = '0'
@@ -546,8 +581,6 @@ class getDate(Screen):
             weeks = weeks % 52
         
         return (year, weeks, days)
-        # #TODO: convert days given to years, weeks and days.
-        # return
 
     def addOrSubCalc(self):
         week_days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
