@@ -34,3 +34,5 @@ plan ahead.
 
 To use this app, One would need to install kivy and python3
 
+I used RapidAPI to get the data for the net income estimate (Taxee) and current
+currency rate (Currency Exchange).

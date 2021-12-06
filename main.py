@@ -21,8 +21,8 @@ from kivy.uix.progressbar import ProgressBar
 Window.size = (750,844)
 
 # API Keys
-API_key = "76b254e6cfmshbcfd444ec2c051ep15cdffjsnd1a7d44cf8ae"
-Bearer_tax = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElfS0VZX01BTkFHRVIiLCJodHRwOi8vdGF4ZWUuaW8vdXNlcl9pZCI6IjYxNWEzNjJkMTQ3NjM1M2NkYjg4MGI1ZCIsImh0dHA6Ly90YXhlZS5pby9zY29wZXMiOlsiYXBpIl0sImlhdCI6MTYzMzMwMjA2MX0.dbskM2DS-9eCFAc_MHGiyfOklBaXVYrJ5JZimQtiPvg"
+API_key = "Your API Key"
+Bearer_tax = "Your Bearer Key"
 
 #global Var
 calc_before = False
